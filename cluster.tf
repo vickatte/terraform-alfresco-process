@@ -6,7 +6,7 @@ resource "rancher2_cluster" "aps2-cluster" {
 
   eks_config {
     region          = "${var.aws_region}"
-    instance_type   = "m4.xlarge"
+    instance_type   = "m4.4xlarge"
     minimum_nodes   = 1
     maximum_nodes   = 5
     access_key      = "${var.aws_access_key_id}"

@@ -1,0 +1,10 @@
+.terraform
+.idea/
+terraform.tfvars
+terraform-temp.tfvars
+terraform-temp.tfvars-e
+terraform.tfstate
+terraform.tfstate.backup
+terraform.tfstate.d
+/adf-stack/services.py
+providers.tf-temp

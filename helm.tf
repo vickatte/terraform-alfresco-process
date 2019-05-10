@@ -531,6 +531,7 @@ image:
   tag: 2.1.0
   pullPolicy: IfNotPresent
 env:
+  APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'
   APP_CONFIG_AUTH_TYPE: "OAUTH"
   APP_CONFIG_IDENTITY_HOST: '{{ include "common.keycloak-url" . }}/admin/realms/{{ include "common.keycloak-realm" . }}'
 EOF

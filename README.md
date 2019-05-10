@@ -60,7 +60,7 @@ The plugin is not released yet so it should be installed manually from <https://
 
 As the terraform providers config is static the terraform command must be split into two steps.
 
-1. Clone this repo and go to the aps2-stack folder (where this README is located)
+1. Clone this repo and go to the root folder of the repo (where this README is located)
 
 2. Initialize terraform:
 

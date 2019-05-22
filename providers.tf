@@ -1,5 +1,5 @@
 provider "rancher2" {
-  version    = "0.2.0-rc5"
+  version = "~> 1.0"
   api_url    = "${var.rancher2_url}"
   insecure   = true
   access_key = "${var.rancher2_access_key}"

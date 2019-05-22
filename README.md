@@ -47,15 +47,6 @@ brew install terraform
 
 Follow the Rancher2 documentation: <https://rancher.com/docs/rancher/v2.x/en/installation/ha/>
 
-### install Terraform Rancher2 plugin
-
-To learn about the differences with Rancher 1.x: <https://rancher.com/rancher-glossary-1-6-to-2-0-terms-concepts/>
-
-The plugin is not released yet so it should be installed manually from <https://github.com/rancher/terraform-provider-rancher2/releases/tag/v0.2.0-rc5>:
-* download the version for your operating system
-* move and rename to: `$HOME/.terraform.d/plugins/terraform-provider-rancher2_v0.2.0-rc5`
-* set the execute bit on the file with `chmod +x
-
 ## How to use it
 
 As the terraform providers config is static the terraform command must be split into two steps.
@@ -67,10 +58,10 @@ As the terraform providers config is static the terraform command must be split 
         terraform init
 
 3. Create your terraform variables file from the template file `terraform_template.tfvars`:
-    
+
     - `cp terraform_template.tfvars terraform.tfvars`
     - edit `terraform.tfvars` and populate the variables following their description to customise your installation
-   
+
    *NB* the terraform state is not managed and goes to the local file `terraform.tfstate`,
    you might want to set a terraform backend and store it for example on S3, see <https://learn.hashicorp.com/terraform/getting-started/remote.html>
 
@@ -96,7 +87,12 @@ As the terraform providers config is static the terraform command must be split 
 
         echo "kubernetes_api_server = \"$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')\"" >> terraform.tfvars
         echo "kubernetes_token = \"$(kubectl config view --minify -o jsonpath='{.users[0].user.token}')\"" >> terraform.tfvars
-      
+
 7. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
 
         terraform apply
+
+8. To uninstall everything:
+
+        terraform destroy
+

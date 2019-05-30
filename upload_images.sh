@@ -37,6 +37,7 @@ IMAGES="
   alfresco/alfresco-process-slack-connector-service:2.1.0
   alfresco/alfresco-process-twilio-connector-service:2.1.0
   alfresco/alfresco-digital-workspace:1.1.0
+  alfresco/alfresco-dbp-connector-service:master
 "
 
 for IMAGE in ${IMAGES}

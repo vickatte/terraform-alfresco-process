@@ -272,6 +272,9 @@ serviceAccount:
 ingress:
   enabled: true
   path: ${local.modeling_service_path}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
 extraVolumes: |
   - name: license
     secret:
@@ -457,6 +460,9 @@ securityContext: |
 ingress:
   path: /deployment-service
   enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
 probePath: "{{ .Values.ingress.path }}/actuator/health"
 extraVolumes: |
   - name: docker-sock-volume

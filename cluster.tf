@@ -15,6 +15,7 @@ resource "rancher2_cluster" "aps2-cluster" {
     service_role    = ""
     subnets         = []
     virtual_network = ""
+    user_data  = "${data.template_file.user-data.rendered}"
   }
 }
 

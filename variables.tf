@@ -113,3 +113,20 @@ variable adf_app_image_pull_policy {
   default = "IfNotPresent"
   description = "pull policy of a custom extra ADF app to install"
 }
+
+variable "ssh_username" {
+  default     = "aps2"
+  type        = "string"
+  description = "username to create user on cluster nodes"
+}
+
+variable "ssh_public_key" {
+  default     = ""
+  type        = "string"
+  description = "public key for authentication on cluster nodes"
+}
+
+variable "my_ip_address" {
+  default =  "0.0.0.0/0"
+  description = "CIDR blocks for ssh access to cluster nodes"
+}

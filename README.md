@@ -88,11 +88,15 @@ As the terraform providers config is static the terraform command must be split 
         echo "kubernetes_api_server = \"$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')\"" >> terraform.tfvars
         echo "kubernetes_token = \"$(kubectl config view --minify -o jsonpath='{.users[0].user.token}')\"" >> terraform.tfvars
 
-7. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
+7.  Execute the following command to populate your IP address in the `terraform.tfvars`:
+
+        echo "my_ip_address = \"$(curl ipecho.net/plain)/32\"" >> terraform.tfvars
+
+8. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
 
         terraform apply
 
-8. To uninstall everything:
+9. To uninstall everything:
 
         terraform destroy
 

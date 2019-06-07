@@ -50,5 +50,9 @@ aws_zone_domain = ""
 # location of your AAE license file
 aps2_license = "~/Downloads/activiti.lic"
 
+# ssh username and public key to authenticate eks-cluster nodes
+ssh_username = "aps2"
+ssh_public_key = ""
+
 
 # Kubernetes deployment settings (automatically generated, do not modify)

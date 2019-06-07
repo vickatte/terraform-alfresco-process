@@ -44,6 +44,20 @@ resource "aws_security_group_rule" "allow_nfs" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
+resource "aws_security_group_rule" "allow_ssh" {
+  type              = "ingress"
+  description       = "SSH to worker nodes of the cluster"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = "${element(data.aws_security_groups.eks-worker-nodes-vpc.ids, 2)}"
+  cidr_blocks       = ["${var.my_ip_address}"]
+
+  depends_on = [
+    "data.aws_security_groups.eks-worker-nodes"
+  ]
+}
+
 resource "aws_s3_bucket" "aps2-registry" {
   bucket        = "${local.cluster_name}-registry"
   region        = "${var.aws_region}"

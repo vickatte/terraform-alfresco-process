@@ -50,7 +50,7 @@ resource "aws_security_group_rule" "allow_ssh" {
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
-  security_group_id = "${element(data.aws_security_groups.eks-worker-nodes-vpc.ids, 2)}"
+  security_group_id = "${element(data.aws_security_groups.eks-worker-nodes.ids, 2)}"
   cidr_blocks       = ["${var.my_ip_address}"]
 
   depends_on = [

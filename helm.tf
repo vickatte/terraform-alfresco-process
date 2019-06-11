@@ -70,7 +70,7 @@ resource "aws_acm_certificate_validation" "cert" {
 resource "helm_release" "nginx-ingress" {
   name    = "nginx-ingress"
   chart   = "stable/nginx-ingress"
-  version = "1.6.0"
+  version = "1.6.17"
 
   values = [<<EOF
 controller:
@@ -342,12 +342,12 @@ EOF
 resource "helm_release" "alfresco-deployment-service-postgresql" {
   name    = "aps2-deployment-service-postgres"
   chart   = "stable/postgresql"
-  version = "0.9.3"
+  version = "0.11.0"
 
   values = [<<EOF
-nameOverride: postgres-ads
-fullnameOverride: aps2-deployment-service-postgres-ads
-imageTag: "10.1"
+nameOverride: postgresql-ads
+fullnameOverride: aps2-deployment-service-postgresql-ads
+imageTag: latest
 postgresUser: alfresco
 postgresPassword: alfresco
 postgresDatabase: ads
@@ -451,10 +451,10 @@ image:
   pullPolicy: IfNotPresent
 postgres:
   enabled: true
-  name: postgres-ads
+  nameOverride: postgresql-ads
   username: alfresco
   password: alfresco
-  uri: "jdbc:postgresql://aps2-deployment-service-postgres-ads:5432/ads"
+  uri: "jdbc:postgresql://aps2-deployment-service-postgresql-ads:5432/ads"
 securityContext: |
   privileged: true
 ingress:

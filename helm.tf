@@ -193,7 +193,7 @@ resource "helm_release" "alfresco-modeling-service-postgresql" {
   values = [<<EOF
 nameOverride: postgresql-ams
 fullnameOverride: aps2-modeling-service-postgresql-ams
-imageTag: latest
+imageTag: "11.3"
 postgresUser: alfresco
 postgresPassword: alfresco
 postgresDatabase: ams
@@ -259,7 +259,7 @@ image:
   pullPolicy: IfNotPresent
 postgres:
   enabled: true
-  nameOverride: postgresql-ams
+  name: postgresql-ams
   username: alfresco
   password: alfresco
   uri: "jdbc:postgresql://aps2-modeling-service-postgresql-ams:5432/ams"
@@ -321,7 +321,7 @@ resource "helm_release" "alfresco-deployment-service-postgresql" {
   values = [<<EOF
 nameOverride: postgresql-ads
 fullnameOverride: aps2-deployment-service-postgresql-ads
-imageTag: latest
+imageTag: "11.3"
 postgresUser: alfresco
 postgresPassword: alfresco
 postgresDatabase: ads
@@ -425,7 +425,7 @@ image:
   pullPolicy: IfNotPresent
 postgres:
   enabled: true
-  nameOverride: postgresql-ads
+  name: postgresql-ads
   username: alfresco
   password: alfresco
   uri: "jdbc:postgresql://aps2-deployment-service-postgresql-ads:5432/ads"

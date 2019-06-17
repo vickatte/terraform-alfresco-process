@@ -185,61 +185,31 @@ EOF
   ]
 }
 
-resource "helm_release" "alfresco-content-services-ce" {
-  name       = "aps2-acs-ce"
-  repository = "${data.helm_repository.alfresco-incubator.url}"
-  chart      = "alfresco-process-infrastructure"
-  version    = "2.1.2"
+resource "helm_release" "alfresco-modeling-service-postgresql" {
+  name    = "aps2-modeling-service-postgres"
+  chart   = "stable/postgresql"
+  version = "0.11.0"
 
   values = [<<EOF
-${local.helm_global_values}
-alfresco-infrastructure:
-  persistence:
-    enabled: false
-  alfresco-identity-service:
-    enabled: false
-  activemq:
-    persistence:
-      subPath: alfresco-content-services-community/activemq-data
-alfresco-content-services-community:
-  enabled: true
-  externalProtocol: ${local.protocol}
-  externalHost: ${local.acs_ce_host}
-  nameOverride: alfresco-cs-ce
-  persistence:
-    repository:
-      data:
-        subPath: alfresco-content-services-community/repository-data
-  postgresql:
-    nameOverride: postgresql-acs-ce
-    persistence:
-      subPath: alfresco-content-services-community/database-data
-  alfresco-search:
-    nameOverride: alfresco-search
-    repository:
-      host: alfresco-cs-ce
-    persistence:
-      enabled: false
-      existingClaim: alfresco-volume-claim
-      search:
-        data:
-          subPath: alfresco-content-services-community/solr-data
-  repository:
-    ingress:
-      hostName: ${local.acs_ce_host}
-  share:
-    ingress:
-      hostName: ${local.acs_ce_host}
+nameOverride: postgresql-ams
+fullnameOverride: aps2-modeling-service-postgresql-ams
+imageTag: latest
+postgresUser: alfresco
+postgresPassword: alfresco
+postgresDatabase: ams
+postgresConfig:
+  max_connections: 300
+  log_min_messages: LOG
+persistence:
+  existingClaim: "alfresco-volume-claim"
+  subPath: "alfresco-modeling-service/database-data"
+resources:
+  requests:
+    memory: "1500Mi"
+  limits:
+    memory: "1500Mi"
 EOF
   ]
-
-  provisioner "local-exec" {
-    command = "${path.cwd}/setup_acs_ce.sh"
-
-    environment {
-      GATEWAY_URL = "${local.acs_ce_url}"
-    }
-  }
 
   depends_on = [
     "helm_release.alfresco-process-infrastructure"
@@ -285,8 +255,14 @@ extraVolumeMounts: |
     readOnly: true
 image:
   repository: quay.io/alfresco/alfresco-modeling-service
-  tag: 2.1.0
+  tag: develop
   pullPolicy: IfNotPresent
+postgres:
+  enabled: true
+  nameOverride: postgresql-ams
+  username: alfresco
+  password: alfresco
+  uri: "jdbc:postgresql://aps2-modeling-service-postgresql-ams:5432/ams"
 probePath: "{{ .Values.ingress.path }}/actuator/health"
 extraEnv: |
   - name: SERVER_PORT
@@ -299,14 +275,12 @@ extraEnv: |
     value: ".*"
   - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
     value: "*"
-  - name: CONTENT_SERVICE_URL
-    value: "${local.acs_ce_url}"
 EOF
   ]
 
   depends_on = [
     "helm_release.alfresco-process-infrastructure",
-    "helm_release.alfresco-content-services-ce",
+    "helm_release.alfresco-modeling-service-postgresql",
     "kubernetes_secret.quay-registry-secret",
     "kubernetes_secret.aps2-license"
   ]

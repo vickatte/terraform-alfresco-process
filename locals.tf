@@ -16,6 +16,4 @@ locals {
   registry_email    = "${local.registry_user}@${var.aws_zone_domain}"
   acs_host          = "${local.gateway_host}"
   acs_url           = "${local.protocol}://${local.acs_host}"
-  acs_ce_host       = "acs-ce.${local.cluster_domain}"
-  acs_ce_url        = "${local.protocol}://${local.acs_ce_host}"
 }

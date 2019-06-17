@@ -3,8 +3,7 @@ locals {
   hosts = [
     "${local.gateway_host}",
     "${local.registry_host}",
-    "${local.acs_host}",
-    "${local.acs_ce_host}"
+    "${local.acs_host}"
   ]
 }
 

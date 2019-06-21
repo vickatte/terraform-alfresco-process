@@ -24,20 +24,21 @@ fi
 docker login -u ${QUAY_USER} -p ${QUAY_PASSWORD} ${QUAY_HOST}
 
 IMAGES="
-  alfresco/alfresco-process-query-service:2.1.0
-  alfresco/alfresco-process-audit-service:2.1.0
-  alfresco/alfresco-process-storage-service:2.1.0
-  alfresco/alfresco-process-notifications-graphql-service:2.1.0
-  alfresco/alfresco-process-workspace-app:2.1.0
-  alfresco/alfresco-process-camel-connector-service:2.1.0
-  alfresco/alfresco-process-email-connector-service:2.1.0
-  alfresco/alfresco-process-lambda-connector-service:2.1.0
-  alfresco/alfresco-process-rest-connector-service:2.1.0
-  alfresco/alfresco-process-salesforce-connector-service:2.1.0
-  alfresco/alfresco-process-slack-connector-service:2.1.0
-  alfresco/alfresco-process-twilio-connector-service:2.1.0
+  alfresco/alfresco-process-query-service:2.2.0
+  alfresco/alfresco-process-audit-service:2.2.0
+  alfresco/alfresco-process-storage-service:2.2.0
+  alfresco/alfresco-process-notifications-graphql-service:2.2.0
+  alfresco/alfresco-preference-service:2.2.0
+  alfresco/alfresco-process-workspace-app:2.2.0
+  alfresco/alfresco-process-camel-connector-service:2.2.0
+  alfresco/alfresco-process-email-connector-service:2.2.0
+  alfresco/alfresco-process-lambda-connector-service:2.2.0
+  alfresco/alfresco-process-rest-connector-service:2.2.0
+  alfresco/alfresco-process-salesforce-connector-service:2.2.0
+  alfresco/alfresco-process-slack-connector-service:2.2.0
+  alfresco/alfresco-process-twilio-connector-service:2.2.0
   alfresco/alfresco-digital-workspace:1.1.0
-  alfresco/alfresco-dbp-connector-service:master
+  alfresco/alfresco-dbp-connector-service:0.5
 "
 
 for IMAGE in ${IMAGES}

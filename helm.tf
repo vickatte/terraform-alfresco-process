@@ -255,7 +255,7 @@ extraVolumeMounts: |
     readOnly: true
 image:
   repository: quay.io/alfresco/alfresco-modeling-service
-  tag: develop
+  tag: 2.2.0
   pullPolicy: IfNotPresent
 postgres:
   enabled: true
@@ -299,7 +299,7 @@ ingress:
   path: /modeling
 image:
   repository: quay.io/alfresco/alfresco-modeling-app
-  tag: 2.1.0
+  tag: 2.2.0
   pullPolicy: IfNotPresent
 env:
   APP_CONFIG_AUTH_TYPE: "OAUTH"
@@ -421,7 +421,7 @@ rabbitmq:
   enabled: false
 image:
   repository: quay.io/alfresco/alfresco-deployment-service
-  tag: 2.1.0
+  tag: 2.2.0
   pullPolicy: IfNotPresent
 postgres:
   enabled: true
@@ -508,7 +508,7 @@ ingress:
   path: /admin
 image:
   repository: quay.io/alfresco/alfresco-admin-app
-  tag: 2.1.0
+  tag: 2.2.0
   pullPolicy: IfNotPresent
 env:
   APP_CONFIG_BPM_HOST: '{{ include "common.gateway-url" . }}'

@@ -90,7 +90,7 @@ As the terraform providers config is static the terraform command must be split 
 
 7.  Execute the following command to populate your IP address in the `terraform.tfvars`:
 
-        echo "my_ip_address = \"$(curl ipecho.net/plain)/32\"" >> terraform.tfvars
+        echo "my_ip_address = \"$(curl https://ipecho.net/plain)/32\"" >> terraform.tfvars
 
 8. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
 

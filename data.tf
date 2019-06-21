@@ -16,4 +16,8 @@ data "aws_security_groups" "eks-worker-nodes" {
     values = [
       "${data.aws_eks_cluster.aps2-cluster.vpc_config.0.vpc_id}"]
   }
+  filter {
+    name   = "group-name"
+    values = ["${local.cluster_name}-eks-worker-nodes-NodeSecurityGroup*"]
+  }
 }

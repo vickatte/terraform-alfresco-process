@@ -1,4 +1,4 @@
-# Terraform template for APS2
+# Terraform template for AAE
 
 Those terraform template can create and destroy environments in Rancher using terraform
 

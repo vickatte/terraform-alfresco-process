@@ -8,3 +8,4 @@ terraform.tfstate.backup
 terraform.tfstate.d
 /adf-stack/services.py
 providers.tf-temp
+.terraform.tfstate.lock.info

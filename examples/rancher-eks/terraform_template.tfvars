@@ -1,3 +1,14 @@
+## Rancher2 settings
+
+# the URL of the Rancher2 server
+rancher2_url = ""
+
+# Rancher 2 API access key for a user who can create clusters, you can login on Rancher2 and create from the "API & Keys" menu on your account or the URL /apikeys
+rancher2_access_key = ""
+
+# Rancher 2 API secret key for a user who can create clusters, you can login on Rancher2 and create from the "API & Keys" menu on your account or the URL /apikeys
+rancher2_secret_key = ""
+
 # AWS Provider settings
 # AWS region
 aws_region = "us-east-1"
@@ -29,27 +40,23 @@ project_environment = "dev"
 # name for your cluster, if not set it will be a concatenation of project_name and project_environment
 cluster_name = ""
 
+# description for your cluster
+cluster_description = ""
+
 # AWS Route53 Settings
 
-# Zone domain for example "companydomain.com"
+# AWS Route53 zone domain
 zone_domain = ""
-
-# docker registry host name
-registry_host = ""
-
-# username for the deployment docker registry
-registry_user = ""
-
-# password for the deployment docker registry
-registry_password = ""
-
-# gateway host name
-gateway_host = ""
 
 # APS2/AAE settings
 
 # location of your AAE license file
 aps2_license = "~/Downloads/activiti.lic"
+
+# ssh username and public key to authenticate eks-cluster nodes
+ssh_username = "aps2"
+
+ssh_public_key = ""
 
 # Kubernetes deployment settings (automatically generated, do not modify)
 

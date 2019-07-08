@@ -1,19 +1,10 @@
 data "aws_eks_cluster" "aps2-cluster" {
-  name = "${local.cluster_name}"
-}
-
-data "aws_eks_cluster_auth" "aps2" {
-  name = "${local.cluster_name}"
-}
-
-output "vpc_config" {
-  value       = "${data.aws_eks_cluster.aps2-cluster.vpc_config}"
-  description = "vpc_config"
+  name = "${var.cluster_name}"
 }
 
 resource "aws_efs_file_system" "aps2-efs" {
   tags = {
-    Name = "${local.cluster_name}"
+    Name = "${var.cluster_name}"
   }
 
   depends_on = [
@@ -42,29 +33,4 @@ resource "aws_security_group_rule" "allow_nfs" {
   protocol          = "tcp"
   security_group_id = "${element(data.aws_eks_cluster.aps2-cluster.vpc_config.0.security_group_ids, 0)}"
   cidr_blocks       = ["0.0.0.0/0"]
-}
-
-resource "aws_security_group_rule" "allow_ssh" {
-  type              = "ingress"
-  description       = "SSH to worker nodes of the cluster"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  security_group_id = "${element(data.aws_security_groups.eks-worker-nodes.ids, 2)}"
-  cidr_blocks       = ["${var.my_ip_address}"]
-
-  depends_on = [
-    "data.aws_security_groups.eks-worker-nodes"
-  ]
-}
-
-resource "aws_s3_bucket" "aps2-registry" {
-  bucket        = "${local.cluster_name}-registry"
-  region        = "${var.aws_region}"
-  acl           = "private"
-  force_destroy = true
-
-  tags = {
-    Name = "${local.cluster_name}-registry"
-  }
 }

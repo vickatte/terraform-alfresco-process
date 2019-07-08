@@ -29,22 +29,13 @@ project_environment = "dev"
 # name for your cluster, if not set it will be a concatenation of project_name and project_environment
 cluster_name = ""
 
+# description for your cluster
+cluster_description = ""
+
 # AWS Route53 Settings
 
-# Zone domain for example "companydomain.com"
+# Zone domain
 zone_domain = ""
-
-# docker registry host name
-registry_host = ""
-
-# username for the deployment docker registry
-registry_user = ""
-
-# password for the deployment docker registry
-registry_password = ""
-
-# gateway host name
-gateway_host = ""
 
 # APS2/AAE settings
 

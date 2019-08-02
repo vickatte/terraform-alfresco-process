@@ -30,6 +30,13 @@ As the terraform providers config is static the terraform command must be split 
 
     It's going to take long, like 20m.
 
+    *NB* currently this is not working due to recent changes in EKS, set the `CLUSTER` variable matching your `terraform.tfvars` and use `eksctl` instead following <https://eksworkshop.com/eksctl.html> and skip to point 7,
+    this will be fixed in order to do everything in terraform soon:
+
+        eksctl create cluster --name=${CLUSTER} --nodes=3 --version 1.11
+
+    then rename cluster.tf to cluster.tf.off and comment depends_on null_resource.kubeconfig in main.tf to proceed.
+
 5. Run the following commands to create a `kubeconfig` file for your new cluster:
 
         export KUBECONFIG=$PWD/.terraform/kubeconfig

@@ -6,6 +6,8 @@ This example creates an EKS cluster in AWS and installs AAE using a module adapt
 
 Same requirements as in the root module plus as follows.
 
+   Install eksctl: https://github.com/weaveworks/eksctl
+
 ## How to use it
 
 As the terraform providers config is static the terraform command must be split into two steps.
@@ -26,40 +28,18 @@ As the terraform providers config is static the terraform command must be split 
 
 4. Create an EKS cluster:
 
-        terraform apply -target=null_resource.kubeconfig
+         eksctl create cluster -f cluster.yaml
 
     It's going to take long, like 20m.
 
-    *NB* currently this is not working due to recent changes in EKS, set the `CLUSTER` variable matching your `terraform.tfvars` and use `eksctl` instead following <https://eksworkshop.com/eksctl.html> and skip to point 7,
-    this will be fixed in order to do everything in terraform soon:
-
-        eksctl create cluster --name=${CLUSTER} --nodes=3 --version 1.11
-
-    then rename cluster.tf to cluster.tf.off and comment depends_on null_resource.kubeconfig in main.tf to proceed.
-
-5. Run the following commands to create a `kubeconfig` file for your new cluster:
-
-        export KUBECONFIG=$PWD/.terraform/kubeconfig
-        echo "$(terraform output kube_config)" > $KUBECONFIG
-        kubectl cluster-info
-
-   *NB* optionally you can import this file in your global `kubectl` config:
-
-        cp ~/.kube/config ~/.kube/config.backup
-        KUBECONFIG=$KUBECONFIG:~/.kube/config kubectl config view --raw > ~/.kube/config.new
-        mv ~/.kube/config.new ~/.kube/config
-
-6. To complete the EKS setup, let the nodes join the cluster with:
-
-        terraform output -module=aps2-cluster config_map_aws_auth | kubectl apply -f -
-
+5.
    then wait for the nodes to complete joining:
 
         kubectl get nodes --watch
 
    break with CTRL-C when they are all running and the EKS cluster is ready for use.
 
-7. Execute the following commands to populate the Kubernetes variables in the `terraform.tfvars`:
+6. Execute the following commands to populate the Kubernetes variables in the `terraform.tfvars`:
 
         echo "kubernetes_api_server = \"$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')\"" >> terraform.tfvars
         NAMESPACE=kube-system
@@ -67,14 +47,30 @@ As the terraform providers config is static the terraform command must be split 
         kubectl create serviceaccount -n kube-system ${SERVICEACCOUNT}
         kubectl create clusterrolebinding ${SERVICEACCOUNT}-admin-binding --clusterrole cluster-admin --serviceaccount=${NAMESPACE}:${SERVICEACCOUNT}
         echo "kubernetes_token = \"$(kubectl -n ${NAMESPACE} get secret $(kubectl -n ${NAMESPACE} get serviceaccount ${SERVICEACCOUNT} -o jsonpath='{.secrets[0].name}') -o jsonpath='{.data.token}' | base64 --decode)\"" >> terraform.tfvars
+7. Execute the following command to populate your gateway address in the `terraform.tfvars` to restrict your SSH access to kubernetes nodes:
 
-8. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
+        echo "my_ip_address = \"$(curl https://ipecho.net/plain)/32\"" >> terraform.tfvars
+
+8. Before the next step make sure you have same name for following variable in Cluster.yaml and terraform.tfvars:
+
+     | cluster.yaml | terraform.tfvar |
+     |------|-------------|
+     | name   | project_name + project_environmen |
+     | region | aws_region                        |
+     | nodeGroups.name | node_groupname  |
+
+9. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
 
         terraform apply
 
-8. To uninstall everything:
+10. To uninstall everything:
 
         terraform destroy
+
+11. To destroy EKS cluster:
+
+        eksctl delete cluster -f cluster.yaml
+
 
 *NB* with this example EKS installation, provisioning an SSH key to connect to worker nodes is not supported.
 

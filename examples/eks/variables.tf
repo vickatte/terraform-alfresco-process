@@ -88,3 +88,13 @@ variable "acs_enabled" {
   default     = true
   description = "install Alfresco Content Services as part of the Alfresco Process Infrastructure"
 }
+
+variable "my_ip_address" {
+  default     = "0.0.0.0/0"
+  description = "CIDR blocks for ssh access to cluster nodes"
+}
+variable "node_groupname"{
+  default = "ng-1"
+  description = "Group name for the worker nodes"
+}
+

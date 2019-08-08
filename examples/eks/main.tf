@@ -1,11 +1,39 @@
 data "aws_eks_cluster" "aps2-cluster" {
   name = "${local.cluster_name}"
 
+}
+data "aws_security_groups" "eks-worker-nodes" {
+  filter {
+    name = "vpc-id"
+
+    values = [
+      "${data.aws_eks_cluster.aps2-cluster.vpc_config.0.vpc_id}",
+    ]
+  }
+
+  filter {
+    name   = "group-name"
+    values = ["eksctl-${local.cluster_name}-nodegroup-${var.node_groupname}-SG*"]
+  }
   depends_on = [
-    "null_resource.kubeconfig",
-  ]
+    "data.aws_eks_cluster.aps2-cluster"
+    ]
 }
 
+# Allow SSH access to cluster nodes
+resource "aws_security_group_rule" "allow_ssh" {
+  type              = "ingress"
+  description       = "SSH to worker nodes of the cluster"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = "${element(data.aws_security_groups.eks-worker-nodes.ids, 1)}"
+  cidr_blocks       = ["${var.my_ip_address}"]
+
+  depends_on = [
+    "data.aws_security_groups.eks-worker-nodes",
+  ]
+}
 module "helm" {
   source = "../../modules/helm"
 }

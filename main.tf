@@ -10,9 +10,9 @@ data "helm_repository" "alfresco" {
 
 resource "helm_release" "alfresco-process-infrastructure" {
   name       = "aps2"
-  repository = "${data.helm_repository.alfresco.url}"
+  repository = "${data.helm_repository.alfresco-incubator.url}"
   chart      = "alfresco-process-infrastructure"
-  version    = "2.3.0"
+  version    = "7.1.0-M4"
 
   values = [<<EOF
 global:

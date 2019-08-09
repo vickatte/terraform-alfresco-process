@@ -59,15 +59,21 @@ As the terraform providers config is static the terraform command must be split 
      | region | aws_region                        |
      | nodeGroups.name | node_groupname  |
 
-9. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
+9. Run the following commands to create a `kubeconfig` file for your new cluster:
+
+           eksctl utils write-kubeconfig --name=<cluser_name> --kubeconfig=$PWD/kubeconfig --set-kubeconfig-context=true
+           export KUBECONFIG=$PWD/kubeconfig
+           kubectl cluster-info
+
+10. Then from now on you can just complete the installation everything (in case of errors with this step, please try to execute agian only this step):
 
         terraform apply
 
-10. To uninstall everything:
+11. To uninstall everything:
 
         terraform destroy
 
-11. To destroy EKS cluster:
+12. To destroy EKS cluster:
 
         eksctl delete cluster -f cluster.yaml
 

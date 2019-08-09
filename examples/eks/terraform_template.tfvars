@@ -42,5 +42,8 @@ zone_domain = ""
 # location of your AAE license file
 aps2_license = "~/Downloads/activiti.lic"
 
+#worker-node group name
+node_groupname = "ng-1"
+
 # Kubernetes deployment settings (automatically generated, do not modify)
 

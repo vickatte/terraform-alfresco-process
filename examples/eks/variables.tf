@@ -93,8 +93,8 @@ variable "my_ip_address" {
   default     = "0.0.0.0/0"
   description = "CIDR blocks for ssh access to cluster nodes"
 }
-variable "node_groupname"{
-  default = "ng-1"
+
+variable "node_groupname" {
+  default     = "ng-1"
   description = "Group name for the worker nodes"
 }
-

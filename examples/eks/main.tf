@@ -1,7 +1,7 @@
 data "aws_eks_cluster" "aps2-cluster" {
   name = "${local.cluster_name}"
-
 }
+
 data "aws_security_groups" "eks-worker-nodes" {
   filter {
     name = "vpc-id"
@@ -15,9 +15,10 @@ data "aws_security_groups" "eks-worker-nodes" {
     name   = "group-name"
     values = ["eksctl-${local.cluster_name}-nodegroup-${var.node_groupname}-SG*"]
   }
+
   depends_on = [
-    "data.aws_eks_cluster.aps2-cluster"
-    ]
+    "data.aws_eks_cluster.aps2-cluster",
+  ]
 }
 
 # Allow SSH access to cluster nodes
@@ -34,6 +35,7 @@ resource "aws_security_group_rule" "allow_ssh" {
     "data.aws_security_groups.eks-worker-nodes",
   ]
 }
+
 module "helm" {
   source = "../../modules/helm"
 }

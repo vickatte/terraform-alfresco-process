@@ -96,6 +96,8 @@ As the terraform providers config is static the terraform command must be split 
 | identity\_host | identity host | string | `""` | no |
 | kubernetes\_api\_server | Kubernetes API server URL | string | `"https://kubernetes"` | no |
 | kubernetes\_token | Kubernetes API token | string | `""` | no |
+| my\_ip\_address | CIDR blocks for ssh access to cluster nodes | string | `"0.0.0.0/0"` | no |
+| node\_groupname | Group name for the worker nodes | string | `"ng-1"` | no |
 | project\_environment | project environment like dev/prod/stagings | string | n/a | yes |
 | project\_name | project name | string | n/a | yes |
 | quay\_password | quay user password | string | n/a | yes |
@@ -105,11 +107,5 @@ As the terraform providers config is static the terraform command must be split 
 | registry\_password | password for the deployment docker registry | string | `"password"` | no |
 | registry\_user | username for the deployment docker registry | string | `"registry"` | no |
 | zone\_domain | Zone domain | string | n/a | yes |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| kube\_config | The new cluster config. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

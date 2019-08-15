@@ -31,6 +31,31 @@ resource "rancher2_cluster" "aps2-cluster" {
   }
 }
 
+data "aws_autoscaling_groups" "eks-worker-nodes-asg" {
+  filter {
+    name   = "key"
+    values = ["Name"]
+  }
+
+  filter {
+    name   = "value"
+    values = ["${local.cluster_name}-${local.cluster_name}-node-group-Node"]
+  }
+}
+
+resource "aws_autoscaling_schedule" "asg-config" {
+  autoscaling_group_name = "${data.aws_autoscaling_groups.eks-worker-nodes-asg.names.0}"
+  desired_capacity       = 1
+  max_size               = 5
+  min_size               = 1
+  scheduled_action_name  = "node-group-config"
+  start_time             = "${timeadd(timestamp(), "60m")}"
+
+  depends_on = [
+    "data.aws_autoscaling_groups.eks-worker-nodes-asg",
+  ]
+}
+
 resource "null_resource" "kubeconfig" {
   provisioner "local-exec" {
     command = "echo \"${rancher2_cluster.aps2-cluster.kube_config}\" > ${path.root}/.terraform/kubeconfig"

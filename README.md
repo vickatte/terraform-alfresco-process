@@ -39,7 +39,7 @@ Install Terraform 0.11.x, see <https://learn.hashicorp.com/terraform/getting-sta
 
 On Mac OS X via brew using [tfenv](https://github.com/tfutils/tfenv):
 ```
-brew install tfenv && tfenv install
+brew install tfenv && tfenv install latest
 ```
 
 ## How to use it

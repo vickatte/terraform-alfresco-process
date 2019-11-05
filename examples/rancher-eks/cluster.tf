@@ -27,7 +27,7 @@ resource "rancher2_cluster" "aps2-cluster" {
     subnets            = []
     virtual_network    = ""
     user_data          = "${data.template_file.user-data.rendered}"
-    kubernetes_version = "1.11"
+    kubernetes_version = "1.12"
   }
 }
 

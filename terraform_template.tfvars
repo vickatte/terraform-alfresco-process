@@ -46,10 +46,10 @@ registry_password = ""
 # gateway host name
 gateway_host = ""
 
-# APS2/AAE settings
+# AAE/AAE settings
 
 # location of your AAE license file
-aps2_license = "~/Downloads/activiti.lic"
+aae_license = "~/Downloads/activiti.lic"
 
 # Kubernetes deployment settings (automatically generated, do not modify)
 

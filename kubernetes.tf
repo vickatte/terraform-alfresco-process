@@ -1,9 +1,9 @@
-resource "kubernetes_secret" "aps2-license" {
+resource "kubernetes_secret" "aae-license" {
   metadata {
     name = "licenseaps"
   }
 
   data = "${map(
-    "activiti.lic", "${file(var.aps2_license)}"
+    "activiti.lic", "${file(var.aae_license)}"
   )}"
 }

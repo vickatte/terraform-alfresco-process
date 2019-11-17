@@ -11,7 +11,7 @@ data "template_file" "user-data" {
 }
 
 # Create a new EKS cluster on AWS via Rancher2
-resource "rancher2_cluster" "aps2-cluster" {
+resource "rancher2_cluster" "aae-cluster" {
   name        = "${local.cluster_name}"
   description = "${var.cluster_description}"
 
@@ -58,7 +58,7 @@ resource "aws_autoscaling_schedule" "asg-config" {
 
 resource "null_resource" "kubeconfig" {
   provisioner "local-exec" {
-    command = "echo \"${rancher2_cluster.aps2-cluster.kube_config}\" > ${path.root}/.terraform/kubeconfig"
+    command = "echo \"${rancher2_cluster.aae-cluster.kube_config}\" > ${path.root}/.terraform/kubeconfig"
   }
 }
 
@@ -67,7 +67,7 @@ data "aws_security_groups" "eks-worker-nodes" {
     name = "vpc-id"
 
     values = [
-      "${data.aws_eks_cluster.aps2-cluster.vpc_config.0.vpc_id}",
+      "${data.aws_eks_cluster.aae-cluster.vpc_config.0.vpc_id}",
     ]
   }
 

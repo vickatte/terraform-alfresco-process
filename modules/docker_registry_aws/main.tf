@@ -1,4 +1,4 @@
-resource "helm_release" "aps2-registry" {
+resource "helm_release" "aae-registry" {
   name    = "docker-registry"
   chart   = "stable/docker-registry"
   version = "1.8.0"
@@ -15,32 +15,32 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
 storage: s3
 secrets:
-  htpasswd: ${data.local_file.aps2-registry-htpasswd.content}
+  htpasswd: ${data.local_file.aae-registry-htpasswd.content}
   s3:
     accessKey: ${var.aws_access_key_id}
     secretKey: ${var.aws_secret_access_key}
 s3:
-  region: ${aws_s3_bucket.aps2-registry.region}
-  bucket: ${aws_s3_bucket.aps2-registry.bucket}
+  region: ${aws_s3_bucket.aae-registry.region}
+  bucket: ${aws_s3_bucket.aae-registry.bucket}
 EOF
   ]
 }
 
-resource "null_resource" "aps2-registry-htpasswd" {
+resource "null_resource" "aae-registry-htpasswd" {
   provisioner "local-exec" {
     command = "docker run --entrypoint htpasswd registry:2 -Bbn ${var.registry_user} ${var.registry_password} > ${path.cwd}/.terraform/htpasswd"
   }
 }
 
-data "local_file" "aps2-registry-htpasswd" {
+data "local_file" "aae-registry-htpasswd" {
   filename = "${path.cwd}/.terraform/htpasswd"
 
   depends_on = [
-    "null_resource.aps2-registry-htpasswd",
+    "null_resource.aae-registry-htpasswd",
   ]
 }
 
-resource "aws_s3_bucket" "aps2-registry" {
+resource "aws_s3_bucket" "aae-registry" {
   bucket        = "${var.cluster_name}-registry"
   region        = "${var.aws_region}"
   acl           = "private"

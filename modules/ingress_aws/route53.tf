@@ -12,14 +12,14 @@ data "aws_elb" "ingress" {
   name = "${element(split("-", data.kubernetes_service.nginx-ingress.load_balancer_ingress.0.hostname), 0)}"
 }
 
-data "aws_route53_zone" "aps2" {
+data "aws_route53_zone" "aae" {
   name = "${var.zone_domain}."
 }
 
 resource "aws_route53_record" "ingress" {
   count = "${length(local.hosts)}"
 
-  zone_id = "${data.aws_route53_zone.aps2.zone_id}"
+  zone_id = "${data.aws_route53_zone.aae.zone_id}"
   name    = "${element(local.hosts, count.index)}"
   type    = "A"
 

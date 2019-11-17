@@ -48,13 +48,13 @@ cluster_description = ""
 # AWS Route53 zone domain
 zone_domain = ""
 
-# APS2/AAE settings
+# AAE/AAE settings
 
 # location of your AAE license file
-aps2_license = "~/Downloads/activiti.lic"
+aae_license = "~/Downloads/activiti.lic"
 
 # ssh username and public key to authenticate eks-cluster nodes
-ssh_username = "aps2"
+ssh_username = "aae"
 
 ssh_public_key = ""
 

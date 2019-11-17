@@ -42,8 +42,8 @@ variable "zone_domain" {
   description = "Zone domain"
 }
 
-# APS2/AAE settings
-variable "aps2_license" {
+# AAE/AAE settings
+variable "aae_license" {
   description = "location of your AAE license file"
 }
 

@@ -30,7 +30,7 @@ As the terraform providers config is static the terraform command must be split 
 
 4. Create an EKS cluster on Rancher:
 
-        terraform apply -target=rancher2_cluster.aps2-cluster
+        terraform apply -target=rancher2_cluster.aae-cluster
 
     It's going to take long, like 20m.
 
@@ -81,7 +81,7 @@ As the terraform providers config is static the terraform command must be split 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | acs\_enabled | install Alfresco Content Services as part of the Alfresco Process Infrastructure | string | `"true"` | no |
-| aps2\_license | location of your AAE license file | string | n/a | yes |
+| aae\_license | location of your AAE license file | string | n/a | yes |
 | aws\_access\_key\_id | AWS access key | string | n/a | yes |
 | aws\_region | AWS region | string | n/a | yes |
 | aws\_secret\_access\_key | AWS secret key | string | n/a | yes |
@@ -104,7 +104,7 @@ As the terraform providers config is static the terraform command must be split 
 | registry\_password | password for the deployment docker registry | string | `"password"` | no |
 | registry\_user | username for the deployment docker registry | string | `"registry"` | no |
 | ssh\_public\_key | public key for authentication on cluster nodes | string | `""` | no |
-| ssh\_username | username to create user on cluster nodes | string | `"aps2"` | no |
+| ssh\_username | username to create user on cluster nodes | string | `"aae"` | no |
 | zone\_domain | Zone domain | string | n/a | yes |
 
 ## Outputs

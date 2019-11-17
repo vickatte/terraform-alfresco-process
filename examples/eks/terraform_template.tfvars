@@ -37,10 +37,10 @@ cluster_description = ""
 # Zone domain
 zone_domain = ""
 
-# APS2/AAE settings
+# AAE/AAE settings
 
 # location of your AAE license file
-aps2_license = "~/Downloads/activiti.lic"
+aae_license = "~/Downloads/activiti.lic"
 
 #worker-node group name
 node_groupname = "ng-1"

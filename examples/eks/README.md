@@ -87,7 +87,7 @@ As the terraform providers config is static the terraform command must be split 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | acs\_enabled | install Alfresco Content Services as part of the Alfresco Process Infrastructure | string | `"true"` | no |
-| aps2\_license | location of your AAE license file | string | n/a | yes |
+| aae\_license | location of your AAE license file | string | n/a | yes |
 | aws\_access\_key\_id | AWS access key | string | n/a | yes |
 | aws\_region | AWS region | string | n/a | yes |
 | aws\_secret\_access\_key | AWS secret key | string | n/a | yes |

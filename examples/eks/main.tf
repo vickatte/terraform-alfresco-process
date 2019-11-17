@@ -1,4 +1,4 @@
-data "aws_eks_cluster" "aps2-cluster" {
+data "aws_eks_cluster" "aae-cluster" {
   name = "${local.cluster_name}"
 }
 
@@ -7,7 +7,7 @@ data "aws_security_groups" "eks-worker-nodes" {
     name = "vpc-id"
 
     values = [
-      "${data.aws_eks_cluster.aps2-cluster.vpc_config.0.vpc_id}",
+      "${data.aws_eks_cluster.aae-cluster.vpc_config.0.vpc_id}",
     ]
   }
 
@@ -17,7 +17,7 @@ data "aws_security_groups" "eks-worker-nodes" {
   }
 
   depends_on = [
-    "data.aws_eks_cluster.aps2-cluster",
+    "data.aws_eks_cluster.aae-cluster",
   ]
 }
 
@@ -48,7 +48,7 @@ module "ingress" {
   identity_host  = "${local.identity_host}"
   registry_host  = "${local.registry_host}"
   zone_domain    = "${var.zone_domain}"
-  cluster_name   = "${data.aws_eks_cluster.aps2-cluster.name}"
+  cluster_name   = "${data.aws_eks_cluster.aae-cluster.name}"
 
   helm_service_account = "${module.helm.service_account}"
 }
@@ -76,14 +76,14 @@ module "docker_registry" {
 module "aws_efs" {
   source = "../../modules/aws_efs"
 
-  cluster_name = "${data.aws_eks_cluster.aps2-cluster.name}"
+  cluster_name = "${data.aws_eks_cluster.aae-cluster.name}"
 }
 
 # Install Alfresco Activiti Enterprise on
 module "alfresco-process-services" {
   source = "../.."
 
-  aps2_license = "${var.aps2_license}"
+  aae_license = "${var.aae_license}"
 
   zone_domain = "${var.zone_domain}"
 

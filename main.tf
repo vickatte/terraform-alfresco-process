@@ -30,9 +30,9 @@ global:
 alfresco-infrastructure:
   persistence:
     enabled: ${var.aws_efs_dns_name != ""}
-    efs:
-      enabled: ${var.acs_enabled && var.aws_efs_dns_name != ""}
-      dns: "${var.aws_efs_dns_name}"
+    storageClass:
+      enabled: ${var.aws_efs_dns_name != ""}
+      name: ${var.aws_efs_dns_name != "" ? "default-sc" : ""}
   activemq:
     enabled: ${var.acs_enabled ? true : false}
 alfresco-content-services:
@@ -50,8 +50,11 @@ alfresco-deployment-service:
   environment:
     apiUrl: "${var.kubernetes_api_server}"
     apiToken: "${var.kubernetes_token}"
+  connectorVolume:
+    storageClass: ${var.aws_efs_dns_name != "" ? "default-sc" : ""}
+    permission: ${var.aws_efs_dns_name != "" ? "ReadWriteMany" : ""}
 nfs-server-provisioner:
-  enabled: ${var.acs_enabled && var.aws_efs_dns_name == ""}
+  enabled: ${var.aws_efs_dns_name == ""}
 EOF
   ]
 

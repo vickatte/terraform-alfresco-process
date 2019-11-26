@@ -10,7 +10,7 @@ data "helm_repository" "alfresco" {
 
 resource "helm_release" "alfresco-process-infrastructure" {
   name       = "aae"
-  repository = "${data.helm_repository.alfresco-incubator.url}"
+  repository = "${data.helm_repository.alfresco.url}"
   chart      = "alfresco-process-infrastructure"
   version    = "7.1.0-M5"
 

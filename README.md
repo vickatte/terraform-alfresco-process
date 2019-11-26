@@ -99,8 +99,8 @@ Generated using [pre-commit-terraform](https://github.com/antonbabenko/pre-commi
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| acs\_enabled | install Alfresco Content Services as part of the Alfresco Process Infrastructure | string | `"true"` | no |
 | aae\_license | location of your AAE license file | string | n/a | yes |
+| acs\_enabled | install Alfresco Content Services as part of the Alfresco Process Infrastructure | string | `"true"` | no |
 | aws\_efs\_dns\_name | EFS DNS name to be used for ACS file storage (optional AWS only) | string | `""` | no |
 | cluster\_name | name for your cluster, if not set it will be a concatenation of project_name and project_environment | string | `""` | no |
 | gateway\_host | gateway host name | string | n/a | yes |

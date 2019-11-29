@@ -46,7 +46,7 @@ alfresco-deployment-service:
     server: "${var.registry_host}"
     password: "${var.registry_password}"
     userName: "${var.registry_user}"
-    secretName: "aps2-registry-secret"
+    secretName: "aae-registry-secret"
   environment:
     apiUrl: "${var.kubernetes_api_server}"
     apiToken: "${var.kubernetes_token}"

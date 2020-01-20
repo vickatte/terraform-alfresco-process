@@ -45,7 +45,7 @@ data "aws_autoscaling_groups" "eks-worker-nodes-asg" {
 
 resource "aws_autoscaling_schedule" "asg-config" {
   autoscaling_group_name = "${data.aws_autoscaling_groups.eks-worker-nodes-asg.names.0}"
-  desired_capacity       = 2
+  desired_capacity       = 3
   max_size               = 5
   min_size               = 1
   scheduled_action_name  = "node-group-config"

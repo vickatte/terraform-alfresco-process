@@ -1,0 +1,81 @@
+language: generic
+
+env:
+  global:
+    - KUBERNETES_VERSION=1.14.8
+    - HELM_VERSION=2.12.3
+    - TERRAFORM_VERSION=0.11.14
+    - MAVEN_CLI_OPTS="--batch-mode --quiet --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -U"
+    - PATH=$HOME/.local/bin:$PATH
+
+branches:
+  only:
+    - master
+    - develop
+
+before_install:
+  - pip install --user awscli
+
+install:
+  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v${KUBERNETES_VERSION}/bin/linux/amd64/kubectl &&
+    chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+  - curl https://kubernetes-helm.storage.googleapis.com/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar zx &&
+    sudo mv linux-amd64/helm /usr/local/bin/ && helm version --client
+  - curl -sLo /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+  - unzip /tmp/terraform.zip -d /tmp
+  - mv /tmp/terraform ~/bin
+  - export PATH="~/bin:$PATH"
+  - aws s3 cp s3://aae-license/activiti.lic $PWD/examples/rancher-eks/activiti.lic
+
+jobs:
+  allow_failures:
+    - name: deploy application
+    - name: testShortRun
+  include:
+    - name: deploy application
+      stage: deploy
+      script:
+        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/create_rancher-eks_cluster.sh
+        - rm -rf ./.terraform/modules ./.terraform/plugins
+        - aws s3 sync . s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ --exclude '*' --include '.terraform/htpasswd' --include '.terraform/kubeconfig' --include 'terraform.tf*'
+    - name: testShortRun
+      stage: test
+      before_script:
+        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/configure_cluster_access.sh
+        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/verify_environment_ready.sh
+        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/clone_and_configure_acceptance_tests.sh
+      script:
+        - travis_wait 40 mvn ${MAVEN_CLI_OPTS} clean verify "-Dmetafilter=+smoke" serenity:aggregate
+    - name: delete clsuter
+      stage: destroy
+      before_script:
+        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/configure_cluster_access.sh
+        - terraform init
+      script:
+        - helm del --purge nginx-ingress docker-registry aae
+        - terraform destroy --force
+      after_success:
+        - aws s3 rm --recursive s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER
+
+cache:
+  directories:
+    - ${HOME}/.m2/repository
+
+notifications:
+  slack:
+    rooms:
+      - alfresco:$SLACK_CHANNEL_TOKEN
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
+    template:
+      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository_slug}@%{branch} by %{author} %{result} in %{duration}"
+      - "Build report: https://aae-ci-result.s3.amazonaws.com/%{build_number}/index.html"
+
+addons:
+  artifacts:
+    paths:
+      - target/site/serenity
+    target_paths: $TRAVIS_BUILD_NUMBER
+
+

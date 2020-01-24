@@ -30,30 +30,31 @@ install:
 jobs:
   allow_failures:
     - name: deploy application
-    - name: testShortRun
+    - name: smoketest
   include:
     - name: deploy application
       stage: deploy
       script:
-        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/create_rancher-eks_cluster.sh
-        - rm -rf ./.terraform/modules ./.terraform/plugins
-        - aws s3 sync . s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ --exclude '*' --include '.terraform/htpasswd' --include '.terraform/kubeconfig' --include 'terraform.tf*'
-    - name: testShortRun
+        - /home/travis/build/Alfresco/terraform-alfresco-process/script/travis/create_rancher-eks_cluster.sh
+        - rm -rf /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/.terraform/{modules,plugins}
+        - aws s3 sync /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/ s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ --exclude '*' --include '.terraform/htpasswd' --include '.terraform/kubeconfig' --include 'terraform.tf*'
+    - name: smoketest
       stage: test
       before_script:
-        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/configure_cluster_access.sh
-        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/verify_environment_ready.sh
-        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/clone_and_configure_acceptance_tests.sh
+        - aws s3 sync s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/
+        - export KUBECONFIG=/home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/.terraform/kubeconfig
+        - export K8S_API_URL=$(kubectl config view -o jsonpath="{.clusters[?(@.name==\"$TF_VAR_cluster_name\")].cluster.server}")
+        - /home/travis/build/Alfresco/terraform-alfresco-process/script/travis/verify_environment_ready.sh
+        - /home/travis/build/Alfresco/terraform-alfresco-process/script/travis/clone_and_configure_acceptance_tests.sh
+        - travis_wait 30 mvn -f ./alfresco-process-acceptance-tests/pom.xml ${MAVEN_CLI_OPTS} dependency:resolve dependency:resolve-plugins
       script:
-        - travis_wait 40 mvn ${MAVEN_CLI_OPTS} clean verify "-Dmetafilter=+smoke" serenity:aggregate
-    - name: delete clsuter
+        - travis_wait 40 mvn -f ./alfresco-process-acceptance-tests/pom.xml ${MAVEN_CLI_OPTS} clean verify "-Dmetafilter=+smoke" serenity:aggregate
+    - name: delete cluster
       stage: destroy
       before_script:
-        - /home/travis/build/Alfresco/terraform-alfresco-process/Utils/configure_cluster_access.sh
-        - terraform init
+        - aws s3 sync s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/
       script:
-        - helm del --purge nginx-ingress docker-registry aae
-        - terraform destroy --force
+        - /home/travis/build/Alfresco/terraform-alfresco-process/script/travis/destroy_cluster.sh
       after_success:
         - aws s3 rm --recursive s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER
 

@@ -65,8 +65,8 @@ cache:
 notifications:
   slack:
     rooms:
-      - alfresco:$SLACK_CHANNEL_TOKEN
-    on_success: change
+      secure: "DQqt1oh8lM1Uby1kEx/PZHQewnxdcdValh/ZtoQIaH/bLOOf6Ajnwio+YiIoPVLzkuTt3ptYKXcL6ooUOG6yQbScId0VUVa0/6bz5VyeIJrUCcfF18PlsHOWl2KA01odRKkdfM4zzWNI+cAKCUoTOP0rmllPYRlu5wLg0GmDc3yplgsDQN01vmBii0CF8V2EXohfsu+9unzfQNkQTAZcuMlCJsSHgf4fHSx8L21tANdLMBDuDHThjXwKBJOY9Ju3kwyubhwYBhiSmsK6FI7mXQNT0kOJxOl2lEgov3gaPvchnytjzKAmJfnLjfAdqriyRCcEY4ErwUBnxPzrqfUGB7rJQpvTthqURCmTAePl9PRahUAPSgzF5NLk+3f0Q2tMIHLx8RlwFVX0eKCQh1tXMGkCupan4wk9HScnpOKhxnVnXb1qwMPOdI8yD+Io5aWMvONb4LX2l0Y+Nnifrm2dUTtzRs+OuZlLbWJiFsZ1DM9EEM8BlMj8vkTKDIhaDglDa/RxoQB/7/uCnDqyOWVaFjqLlJ5Z5wVznal996V7X1j6jmCDGMQ6bbRfIiVSUAYJijOBpY1RsUieMHOTmlyYbCRMiKytpgCTN4Uzvjin++HLgRs6CZ+uelunQ5ZBd9QefuBOgoyOXVJwLRuoDF0MhjVRID5hv3F9n/lPeHjUDDQ="
+    on_success: always
     on_failure: always
     on_pull_requests: false
     template:
@@ -76,7 +76,7 @@ notifications:
 addons:
   artifacts:
     paths:
-      - target/site/serenity
+      - ./alfresco-process-acceptance-tests/target/site/serenity
     target_paths: $TRAVIS_BUILD_NUMBER
 
 

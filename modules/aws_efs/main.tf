@@ -1,7 +1,7 @@
 resource "helm_release" "nfs-client-provisioner" {
   name    = "nfs-client-provisioner"
   chart   = "stable/nfs-client-provisioner"
-  version = "1.2.6"
+  version = "1.2.8"
 
   values = [<<EOF
 nfs:

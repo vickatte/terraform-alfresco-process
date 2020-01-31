@@ -36,7 +36,7 @@ jobs:
     - name: deploy application
       stage: deploy
       script:
-        - sync; echo 1 > /proc/sys/vm/drop_caches
+        - sudo sync; echo 1 > /proc/sys/vm/drop_caches
         - /home/travis/build/Alfresco/terraform-alfresco-process/script/travis/create_rancher-eks_cluster.sh
         - rm -rf /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/.terraform/{modules,plugins}
         - aws s3 sync /home/travis/build/Alfresco/terraform-alfresco-process/examples/rancher-eks/ s3://$CACHE_BUCKET/$TRAVIS_BUILD_NUMBER/ --exclude '*' --include '.terraform/htpasswd' --include '.terraform/kubeconfig' --include 'terraform.tf*'

@@ -1,5 +1,5 @@
 provider "rancher2" {
-  version    = "~> 1.0"
+  version    = "1.7.1"
   api_url    = "${var.rancher2_url}"
   insecure   = true
   access_key = "${var.rancher2_access_key}"
@@ -7,14 +7,14 @@ provider "rancher2" {
 }
 
 provider "aws" {
-  version    = "2.5.0"
+  version    = "2.46.0"
   region     = "${var.aws_region}"
   access_key = "${var.aws_access_key_id}"
   secret_key = "${var.aws_secret_access_key}"
 }
 
 provider "template" {
-  version = "~> 2.1"
+  version = "2.1.2"
 }
 
 provider "helm" {

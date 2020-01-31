@@ -4,7 +4,7 @@ env:
   global:
     - KUBERNETES_VERSION=1.14.8
     - HELM_VERSION=2.12.3
-    - TERRAFORM_VERSION=0.11.14
+    - TERRAFORM_VERSION=0.11.15-oci
     - MAVEN_CLI_OPTS="--batch-mode --quiet --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true -U"
     - PATH=$HOME/.local/bin:$PATH
 

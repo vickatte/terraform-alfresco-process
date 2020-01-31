@@ -12,6 +12,7 @@ branches:
   only:
     - master
     - develop
+    - dev-sohel-AAE-1573
 
 before_install:
   - pip install --user awscli

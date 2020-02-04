@@ -2,10 +2,10 @@ locals {
   quaydockercfg = {
     "auths" = {
       "${var.quay_url}" = {
-        username   = "${var.quay_user}"
-        password   = "${var.quay_password}"
+        username   = var.quay_user
+        password   = var.quay_password
         email      = "none"
-        auth_token = "${base64encode("${var.quay_user}:${var.quay_password}")}"
+        auth_token = base64encode("${var.quay_user}:${var.quay_password}")
       }
     }
   }
@@ -16,9 +16,10 @@ resource "kubernetes_secret" "quay-registry-secret" {
     name = "quay-registry-secret"
   }
 
-  data = "${map(
+  data = map(
     ".dockerconfigjson", "${jsonencode(local.quaydockercfg)}"
-  )}"
+  )
 
   type = "kubernetes.io/dockerconfigjson"
 }
+

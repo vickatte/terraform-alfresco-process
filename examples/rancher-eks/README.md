@@ -94,6 +94,7 @@ As the terraform providers config is static the terraform command must be split 
 | my\_ip\_address | CIDR blocks for ssh access to cluster nodes | string | `"0.0.0.0/0"` | no |
 | project\_environment | project environment like dev/prod/stagings | string | n/a | yes |
 | project\_name | project name | string | n/a | yes |
+| quay_email | quay user email | string | n/a | yes |
 | quay\_password | quay user password | string | n/a | yes |
 | quay\_url | quay url in docker registry format, defaults to "quay.io" | string | `"quay.io"` | no |
 | quay\_user | quay user name | string | n/a | yes |

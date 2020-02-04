@@ -35,7 +35,9 @@ brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/869efd7bc8
 
 ### install Terraform
 
-Install Terraform 0.11.x, see <https://learn.hashicorp.com/terraform/getting-started/install.html>
+Install Terraform 0.12.x, see <https://learn.hashicorp.com/terraform/getting-started/install.html>
+
+**Note:** Minimum Terraform version required 0.12
 
 On Mac OS X via brew using [tfenv](https://github.com/tfutils/tfenv):
 ```

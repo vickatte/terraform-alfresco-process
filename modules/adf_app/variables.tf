@@ -32,3 +32,4 @@ variable "adf_app_image_pull_policy" {
   default     = "IfNotPresent"
   description = "pull policy of a custom extra ADF app to install"
 }
+

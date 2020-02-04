@@ -45,13 +45,13 @@ variable "cluster_description" {
 # settings for SSH access to EKS nodes
 variable "ssh_username" {
   default     = "aae"
-  type        = "string"
+  type        = string
   description = "username to create user on cluster nodes"
 }
 
 variable "ssh_public_key" {
   default     = ""
-  type        = "string"
+  type        = string
   description = "public key for authentication on cluster nodes"
 }
 
@@ -72,6 +72,10 @@ variable "quay_user" {
 
 variable "quay_password" {
   description = "quay user password"
+}
+
+variable "quay_email" {
+  description = "quay user email"
 }
 
 variable "zone_domain" {
@@ -124,3 +128,4 @@ variable "acs_enabled" {
   default     = true
   description = "install Alfresco Content Services as part of the Alfresco Process Infrastructure"
 }
+

@@ -22,7 +22,6 @@ resource "kubernetes_cluster_role_binding" "tiller-clusterrole-binding" {
     namespace = "kube-system"
   }
 
-  depends_on = [
-    "kubernetes_service_account.tiller",
-  ]
+  depends_on = [kubernetes_service_account.tiller]
 }
+

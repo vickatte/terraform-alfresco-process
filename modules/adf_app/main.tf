@@ -11,6 +11,7 @@ global:
     realm: alfresco
     host: ${var.identity_host}
 EOF
+
 }
 
 data "helm_repository" "alfresco-incubator" {
@@ -19,12 +20,13 @@ data "helm_repository" "alfresco-incubator" {
 }
 
 resource "helm_release" "alfresco-adf-app" {
-  name       = "${var.adf_app_name}"
-  repository = "${data.helm_repository.alfresco-incubator.url}"
+  name       = var.adf_app_name
+  repository = data.helm_repository.alfresco-incubator.url
   chart      = "alfresco-adf-app"
   version    = "2.1.3"
 
-  values = [<<EOF
+  values = [
+    <<EOF
 ${local.helm_global_values}
 nameOverride: "${var.adf_app_name}"
 ingress:
@@ -35,5 +37,7 @@ image:
   tag: ${var.adf_app_image_tag}
   pullPolicy: ${var.adf_app_image_pull_policy}
 EOF
+    ,
   ]
 }
+

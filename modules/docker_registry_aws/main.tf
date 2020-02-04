@@ -3,7 +3,8 @@ resource "helm_release" "aae-registry" {
   chart   = "stable/docker-registry"
   version = "1.8.0"
 
-  values = [<<EOF
+  values = [
+    <<EOF
 ingress:
   enabled: true
   hosts:
@@ -23,6 +24,7 @@ s3:
   region: ${aws_s3_bucket.aae-registry.region}
   bucket: ${aws_s3_bucket.aae-registry.bucket}
 EOF
+    ,
   ]
 }
 
@@ -35,14 +37,12 @@ resource "null_resource" "aae-registry-htpasswd" {
 data "local_file" "aae-registry-htpasswd" {
   filename = "${path.cwd}/.terraform/htpasswd"
 
-  depends_on = [
-    "null_resource.aae-registry-htpasswd",
-  ]
+  depends_on = [null_resource.aae-registry-htpasswd]
 }
 
 resource "aws_s3_bucket" "aae-registry" {
   bucket        = "${var.cluster_name}-registry"
-  region        = "${var.aws_region}"
+  region        = var.aws_region
   acl           = "private"
   force_destroy = true
 
@@ -50,3 +50,4 @@ resource "aws_s3_bucket" "aae-registry" {
     Name = "${var.cluster_name}-registry"
   }
 }
+

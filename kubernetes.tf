@@ -3,7 +3,8 @@ resource "kubernetes_secret" "aae-license" {
     name = "licenseaps"
   }
 
-  data = "${map(
-    "activiti.lic", "${file(var.aae_license)}"
-  )}"
+  data = {
+    "activiti.lic" = file(var.aae_license)
+  }
 }
+
